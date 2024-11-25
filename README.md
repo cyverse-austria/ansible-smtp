@@ -1,0 +1,2 @@
+# ansible-smtp
+Mail server
