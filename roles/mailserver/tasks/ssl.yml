@@ -8,20 +8,20 @@
 
 - name: Obtain SSL Certificate
   command:
-    cmd: certbot certonly --standalone -d mail.yourdomain.com --non-interactive --agree-tos --email admin@yourdomain.com
+    cmd: certbot certonly --standalone -d {{ mail_hostname }} --non-interactive --agree-tos --email {{ admin_email }}
   args:
-    creates: /etc/letsencrypt/live/mail.yourdomain.com/fullchain.pem
+    creates: /etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem
 
 - name: Configure SSL in Postfix
   lineinfile:
     path: /etc/postfix/main.cf
     regexp: '^smtpd_tls_cert_file='
-    line: 'smtpd_tls_cert_file=/etc/letsencrypt/live/mail.yourdomain.com/fullchain.pem'
+    line: 'smtpd_tls_cert_file=/etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem'
   notify: Restart Postfix
 
 - name: Configure SSL in Dovecot
   lineinfile:
     path: /etc/dovecot/dovecot.conf
     regexp: '^ssl_cert ='
-    line: 'ssl_cert = </etc/letsencrypt/live/mail.yourdomain.com/fullchain.pem'
+    line: 'ssl_cert = </etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem'
   notify: Restart Dovecot

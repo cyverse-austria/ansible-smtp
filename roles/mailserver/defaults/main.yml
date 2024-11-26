@@ -1,2 +1,6 @@
 ---
 # defaults file for roles/mailserver
+
+mail_hostname: qa-smtp.cyverse.at #mail.yourdomain.com
+admin_email: admin@qa-smtp.cyverse.at # admin@yourdomain.com
+domain_name: cyverse.at
