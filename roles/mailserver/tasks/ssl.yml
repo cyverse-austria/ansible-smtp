@@ -23,5 +23,5 @@
   lineinfile:
     path: /etc/dovecot/dovecot.conf
     regexp: '^ssl_cert ='
-    line: 'ssl_cert = </etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem'
+    line: 'ssl_cert = /etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem'
   notify: Restart Dovecot

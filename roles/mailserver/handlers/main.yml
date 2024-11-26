@@ -1,2 +1,5 @@
 ---
-# handlers file for roles/mailserver
+- name: Restart Dovecot
+  service:
+    name: dovecot
+    state: restarted
