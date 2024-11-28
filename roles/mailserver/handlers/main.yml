@@ -3,3 +3,8 @@
   service:
     name: dovecot
     state: restarted
+
+- name: Restart Postfix
+  service:
+    name: postfix
+    state: restarted
