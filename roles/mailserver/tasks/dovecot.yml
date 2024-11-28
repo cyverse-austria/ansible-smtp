@@ -15,6 +15,15 @@
     group: root
     mode: '0644'
 
+- name: Ensure Dovecot SASL socket exists
+  file:
+    path: /var/spool/postfix/private/auth
+    state: directory
+    owner: postfix
+    group: postfix
+    mode: '0755'
+  notify: Restart Dovecot
+
 - name: Restart Dovecot
   service:
     name: dovecot
