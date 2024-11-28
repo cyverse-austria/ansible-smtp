@@ -15,9 +15,9 @@
     group: root
     mode: '0644'
 
-- name: Ensure Dovecot SASL socket exists
+- name: Ensure Dovecot SASL socket path exists
   file:
-    path: /var/spool/postfix/private/auth
+    path: /var/spool/postfix/private
     state: directory
     owner: postfix
     group: postfix
