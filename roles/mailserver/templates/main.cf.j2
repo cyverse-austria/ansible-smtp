@@ -1,12 +1,41 @@
+# Basic settings
 myhostname = {{ mail_hostname }}
 mydomain = {{ domain_name }}
 myorigin = $mydomain
-inet_interfaces = all
-inet_protocols = ipv4
+
+# Local delivery
 mydestination = $myhostname, localhost.$mydomain, localhost
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+
+# Relay settings
+mynetworks = 127.0.0.0/8 [::1]/128
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, defer_unauth_destination
+
+# SASL authentication
 smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+
+# TLS settings
 smtpd_tls_cert_file=/etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem
 smtpd_tls_key_file=/etc/letsencrypt/live/{{ mail_hostname }}/privkey.pem
 smtpd_tls_security_level = encrypt
 smtp_tls_security_level = encrypt
+smtpd_tls_protocols = !SSLv2, !SSLv3
+smtpd_tls_ciphers = high
+smtp_tls_protocols = !SSLv2, !SSLv3
+smtp_tls_ciphers = high
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+smtp_tls_loglevel = 1
+
+# Submission and SMTPS services
+submission inet n       -       y       -       -       smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+
+smtps     inet n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
