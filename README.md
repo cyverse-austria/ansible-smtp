@@ -11,6 +11,9 @@ ansible-playbook -i inventory --user=root --become setup-mailserver.yml
 
 ## Test sending email
 ```bash
+postfix check
+
+
 sudo apt-get install mailutils -y   # For Debian/Ubuntu
 echo "This is a test email" | mail -s "Test Email" -r test@qa-smtp.cyverse.at mojib.wali@tugraz.at
 ```
