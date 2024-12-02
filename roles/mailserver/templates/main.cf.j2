@@ -14,6 +14,8 @@ smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, defer_u
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
+smtpd_sasl_local_domain = $mydomain
+smtpd_sasl_security_options = noanonymous
 
 # TLS settings
 smtpd_tls_cert_file=/etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem

@@ -15,6 +15,14 @@
     group: root
     mode: '0644'
 
+- name: Create SASL users file
+  template:
+    src: sasl-passwd.j2
+    dest: /etc/dovecot/sasl-passwd
+    owner: root
+    group: root
+    mode: '0600'
+
 - name: Restart Dovecot
   service:
     name: dovecot

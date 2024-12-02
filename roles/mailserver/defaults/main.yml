@@ -5,3 +5,8 @@ mail_hostname: qa-smtp.cyverse.at #mail.yourdomain.com
 admin_email: admin@qa-smtp.cyverse.at # admin@yourdomain.com
 domain_name: cyverse.at
 mydomain: cyverse.at
+
+smtp_users:
+  - "user1@qa-smtp.cyverse.at:{PLAIN}password1"
+  - "user2@qa-smtp.cyverse.at:{PLAIN}password2"
+  - "user3@qa-smtp.cyverse.at:{PLAIN}password3"
