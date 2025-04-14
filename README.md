@@ -1,7 +1,10 @@
 # ansible-smtp
 
-Ansible playbook to setup a **SMTP** server, with **dovecot** & **postfix**.
+Ansible playbook to setup a **SMTP** server, with:
 
+[DOVECOT](https://www.dovecot.org/) is an open-source IMAP and POP3 server for email.
+
+[Postfix](https://www.postfix.org/) is a free and open-source mail transfer agent (MTA) that routes and delivers electronic mail.
 
 ## Run the playbook
 
