@@ -1,4 +1,7 @@
 protocols = imap pop3
 ssl = required
-ssl_cert = /etc/letsencrypt/live/{{ mail_hostname }}/fullchain.pem
-ssl_key = /etc/letsencrypt/live/{{ mail_hostname }}/privkey.pem
+ssl_cert = {{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}
+ssl_key = {{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_key_name }}
+!include conf.d/*.conf
+!include_try local.conf
+
