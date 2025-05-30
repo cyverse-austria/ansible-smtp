@@ -4,8 +4,8 @@
     update_cache: yes
     upgrade: dist
 
+- include_tasks: ssl.yml
 - include_tasks: postfix.yml
 - include_tasks: dovecot.yml
-- include_tasks: ssl.yml
 - include_tasks: testuser.yml
 
