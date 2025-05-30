@@ -24,6 +24,6 @@ echo "This is a test email" | mail -s "Test Email" -r test@qa-smtp.cyverse.at mo
 2. Run the following commands in the local client
 ```bash
 sudo apt-get install swaks # For Debian/Ubuntu
-swaks -t enitu@tugraz.at -s qa-smtp.cyverse.at:587 -tls -a LOGIN
+swaks -t enitu@tugraz.at -s mail.example.com:587 -tls -a LOGIN
 ```
 This will prompt the login interface with username and password. Enter the credentials of the test created user. After running the _swaks_ command a mail should arrive at the given destination.
