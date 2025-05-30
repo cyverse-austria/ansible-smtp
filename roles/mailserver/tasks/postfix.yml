@@ -20,7 +20,12 @@
     group: root
     mode: '0644'
 
-
+- name: Configure SSL in Postfix
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regexp: '^smtpd_tls_cert_file='
+    line: 'smtpd_tls_cert_file={{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}'
+  notify: Restart Postfix
 
 - name: Restart Postfix
   service:

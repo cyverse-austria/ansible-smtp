@@ -6,6 +6,6 @@ ssl_directory: /etc/letsencrypt/live
 ssl_certificate_name: fullchain.pem
 ssl_key_name: privkey.pem
 mynetworks: 127.0.0.0/8 165.232.80.0/20 10.18.0.0/16 10.110.0.0/20 [::1]/128 [fe80::]/64
-test_user: newuser2@example.com
-test_password: 123456
+test_user: newuser@example.com
+test_password: 1234567
 

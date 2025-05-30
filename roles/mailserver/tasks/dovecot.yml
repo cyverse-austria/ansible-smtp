@@ -31,6 +31,13 @@
     group: root
     mode: '0644'
 
+- name: Configure SSL in Dovecot
+  lineinfile:
+    path: /etc/dovecot/dovecot.conf
+    regexp: '^ssl_cert ='
+    line: 'ssl_cert = {{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}'
+  notify: Restart Dovecot
+
 - name: Restart Dovecot
   service:
     name: dovecot
