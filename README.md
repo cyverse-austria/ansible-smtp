@@ -12,10 +12,6 @@ Ansible playbook to setup a **SMTP** server, with:
 ansible-playbook -i inventory --user=root --become setup-mailserver.yml
 ```
 
-If you encounter permission denied errors, try:
-```bash
-ansible-playbook -i inventory --user=root --become setup-mailserver.yml 
-```
 
 ## Test sending email
 ```bash
