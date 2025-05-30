@@ -23,6 +23,14 @@
     group: root
     mode: '0644'
 
+- name: Enable auth service in Dovecot part 3
+  template:
+    src: 10-auth.conf.j2
+    dest: /etc/dovecot/conf.d/10-auth.conf
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Configure Dovecot
   template:
     src: dovecot.conf.j2
