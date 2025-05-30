@@ -1,0 +1,10 @@
+- name: Generate SHA-512 hashed password from plain password
+  set_fact:
+    hashed_password: "{{ '{{ test_password }}' | password_hash('sha512') }}"
+
+- name: Add test user
+  user:
+    name: "{{ test_user }}"
+    shell: /bin/bash
+    password: "{{ hashed_password }}"
+    state: present

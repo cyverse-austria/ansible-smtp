@@ -12,6 +12,16 @@
     group: root
     mode: '0644'
 
+- name: Configure submission
+  template:
+    src: master.cf.j2
+    dest: /etc/postfix/master.cf
+    owner: root
+    group: root
+    mode: '0644'
+
+
+
 - name: Restart Postfix
   service:
     name: postfix
