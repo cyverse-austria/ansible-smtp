@@ -14,7 +14,7 @@ ansible-playbook -i inventory --user=root --become setup-mailserver.yml
 
 If you encounter permission denied errors, try:
 ```bash
-sudo ansible-playbook -i inventory --user=root --become setup-mailserver.yml --private-key=<your_private_key_path>
+ansible-playbook -i inventory --user=root --become setup-mailserver.yml 
 ```
 
 ## Test sending email
