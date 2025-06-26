@@ -1,0 +1,14 @@
+---
+- name: Purge Dovecot
+  apt:
+    name: dovecot
+    state: absent
+    purge: yes
+
+- name: Remove Dovecot directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/lib/dovecot
+    - /var/log/dovecot.log

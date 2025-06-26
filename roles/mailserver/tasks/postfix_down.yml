@@ -1,0 +1,15 @@
+---
+- name: Purge Postfix
+  apt:
+    name: postfix
+    state: absent
+    purge: yes
+
+- name: Remove Postfix directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/postfix
+    - /var/spool/postfix
+    - /var/log/mail.log
