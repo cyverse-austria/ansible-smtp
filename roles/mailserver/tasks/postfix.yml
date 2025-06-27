@@ -11,7 +11,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify: Restart Postfix
+  register: postfix_config
 
 - name: Configure submission
   template:
@@ -20,10 +20,23 @@
     owner: root
     group: root
     mode: '0644'
+  register: postfix_submission_config
 
 - name: Configure SSL in Postfix
   lineinfile:
     path: /etc/postfix/main.cf
     regexp: '^smtpd_tls_cert_file='
     line: 'smtpd_tls_cert_file={{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}'
-  notify: Restart Postfix
+  register: postfix_ssl_config
+
+- name: Restart Postfix
+  service:
+    name: postfix
+    state: restarted
+  when: postfix_config.changed or postfix_submission_config.changed or postfix_ssl_config.changed
+  register: postfix_restarted
+  ignore_errors: yes
+  
+- include_tasks: fetch_postfix_logs.yml
+  when: postfix_restarted.changed
+

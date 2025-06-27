@@ -8,13 +8,3 @@
   service:
     name: postfix
     state: restarted
-
-- name: Stop Postfix
-  service:
-    name: postfix
-    state: stopped
-
-- name: Stop Dovecot
-  service:
-    name: dovecot
-    state: stopped
