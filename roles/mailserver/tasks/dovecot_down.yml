@@ -1,7 +1,10 @@
 ---
 - name: Purge Dovecot
   apt:
-    name: dovecot
+    name:
+      - dovecot-core
+      - dovecot-imapd
+      - dovecot-pop3d
     state: absent
     purge: yes
 
