@@ -5,21 +5,6 @@
     upgrade: dist
 
 - include_tasks: ssl.yml
-  when: run_destroy | bool == false
 - include_tasks: postfix.yml
-  when: run_destroy | bool == false
 - include_tasks: dovecot.yml
-  when: run_destroy | bool == false
 - include_tasks: testuser.yml
-  when: run_destroy | bool == false
-
-- include_tasks: ssl_down.yml
-  when: run_destroy | bool == true
-- include_tasks: postfix_down.yml
-  when: run_destroy | bool == true
-- include_tasks: dovecot_down.yml
-  when: run_destroy | bool == true
-- include_tasks: testuser_down.yml
-  when: run_destroy | bool == true
-
-

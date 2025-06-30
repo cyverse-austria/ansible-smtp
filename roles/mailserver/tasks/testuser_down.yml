@@ -1,4 +1,0 @@
-- name: Delete test user
-  user:
-    name: "{{ test_user }}"
-    state: absent

@@ -34,9 +34,3 @@
     name: postfix
     state: restarted
   when: postfix_config.changed or postfix_submission_config.changed or postfix_ssl_config.changed
-  register: postfix_restarted
-  ignore_errors: yes
-  
-- include_tasks: fetch_postfix_logs.yml
-  when: postfix_restarted.changed
-

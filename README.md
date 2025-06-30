@@ -27,3 +27,10 @@ sudo apt-get install swaks # For Debian/Ubuntu
 swaks -t enitu@tugraz.at -s mail.example.com:587 -tls -a LOGIN
 ```
 This will prompt the login interface with username and password. Enter the credentials of the test created user. After running the _swaks_ command a mail should arrive at the given destination.
+
+## Debug logs
+Log in to the mail server host and type these commands to debug failed runs:
+
+```journalctl -u <service> --since "10 minutes ago"``` where service could be: **postfix** or **dovecot**.
+
+```/var/log/letsencrypt/letsencrypt.log``` for certbot fails.
