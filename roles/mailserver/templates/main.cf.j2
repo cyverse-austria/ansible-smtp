@@ -7,7 +7,7 @@ inet_protocols = ipv4
 mydestination = $myhostname, localhost.$mydomain, localhost
 smtpd_relay_restrictions =
 	permit_mynetworks,
-	check_client_access hash:/etc/postfix/allowed_ips,
+	check_client_access hash:/etc/postfix/auth_allowed_ips,
 	defer_unauth_destination
 smtpd_recipient_restrictions =
 	permit_sasl_authenticated,
