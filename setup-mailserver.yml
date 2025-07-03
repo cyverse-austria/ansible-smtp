@@ -3,4 +3,5 @@
   hosts: mailserver
   become: yes
   roles:
-    - mailserver
+    - { role: mailserver, tags: ['setup'] }
+    - { role: destroy, tags: ['destroy'] }

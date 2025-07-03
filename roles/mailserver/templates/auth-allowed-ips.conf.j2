@@ -1,0 +1,5 @@
+{% set allowed_ips = mynetworks.split(' ') %}
+
+{% for ip in allowed_ips %}
+{{ ip }} OK
+{% endfor %}

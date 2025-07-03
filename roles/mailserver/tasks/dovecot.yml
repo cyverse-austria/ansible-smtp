@@ -14,6 +14,7 @@
     owner: root
     group: root
     mode: '0644'
+  register: dovecot_auth_config1
 
 - name: Enable auth service in Dovecot part 2
   template:
@@ -22,6 +23,7 @@
     owner: root
     group: root
     mode: '0644'
+  register: dovecot_auth_config2
 
 - name: Enable auth service in Dovecot part 3
   template:
@@ -30,6 +32,7 @@
     owner: root
     group: root
     mode: '0644'
+  register: dovecot_auth_config3
 
 - name: Configure Dovecot
   template:
@@ -38,15 +41,17 @@
     owner: root
     group: root
     mode: '0644'
+  register: dovecot_config
 
 - name: Configure SSL in Dovecot
   lineinfile:
     path: /etc/dovecot/dovecot.conf
     regexp: '^ssl_cert ='
     line: 'ssl_cert = {{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}'
-  notify: Restart Dovecot
+  register: dovecot_ssl_config
 
 - name: Restart Dovecot
   service:
     name: dovecot
     state: restarted
+  when: dovecot_auth_config1.changed or dovecot_auth_config2.changed or dovecot_auth_config3.changed or dovecot_config.changed or dovecot_ssl_config.changed

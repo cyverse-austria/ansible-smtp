@@ -1,0 +1,51 @@
+---
+- name: Uninstall Certbot
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: absent
+    purge: yes
+
+- name: Remove Certificate directories
+  file:
+    path: "{{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}"
+    state: absent
+
+- name: Purge Postfix
+  apt:
+    name: postfix
+    state: absent
+    purge: yes
+
+- name: Remove Postfix directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/postfix
+    - /var/spool/postfix
+    - /var/log/mail.log
+
+- name: Purge Dovecot
+  apt:
+    name:
+      - dovecot-core
+      - dovecot-imapd
+      - dovecot-pop3d
+    state: absent
+    purge: yes
+
+- name: Remove Dovecot directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/lib/dovecot
+    - /var/log/dovecot.log
+
+- name: Delete test user
+  user:
+    name: "{{ test_user }}"
+    state: absent
+    

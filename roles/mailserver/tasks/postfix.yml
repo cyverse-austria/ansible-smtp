@@ -11,6 +11,7 @@
     owner: root
     group: root
     mode: '0644'
+  register: postfix_config
 
 - name: Configure submission
   template:
@@ -19,15 +20,30 @@
     owner: root
     group: root
     mode: '0644'
+  register: postfix_submission_config
 
 - name: Configure SSL in Postfix
   lineinfile:
     path: /etc/postfix/main.cf
     regexp: '^smtpd_tls_cert_file='
     line: 'smtpd_tls_cert_file={{ ssl_directory }}/{{ mail_hostname }}/{{ ssl_certificate_name }}'
-  notify: Restart Postfix
+  register: postfix_ssl_config
+
+- name: Configure allowed IPs for submission
+  template:
+    src: auth-allowed-ips.conf.j2
+    dest: /etc/postfix/auth_allowed_ips
+    owner: root
+    group: root
+    mode: '0644'
+  register: postfix_allowed_ips
+
+- name: Run postmap
+  shell: postmap /etc/postfix/auth_allowed_ips
+  when: postfix_allowed_ips.changed
 
 - name: Restart Postfix
   service:
     name: postfix
     state: restarted
+  when: postfix_config.changed or postfix_submission_config.changed or postfix_ssl_config.changed or postfix_allowed_ips.changed
