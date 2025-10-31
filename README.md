@@ -1,57 +1,102 @@
-# ansible-smtp
+# 📨 ansible-smtp
 
-Ansible playbook to setup a **SMTP** server, with:
+Ansible playbook to set up an **SMTP mail server** with the following components:
 
-[DOVECOT](https://www.dovecot.org/) is an open-source IMAP and POP3 server for email.
+- **[Postfix](https://www.postfix.org/):** A free and open-source Mail Transfer Agent (MTA) that routes and delivers email.  
+- **[Dovecot](https://www.dovecot.org/):** An open-source IMAP and POP3 server for email retrieval and storage.
 
-[Postfix](https://www.postfix.org/) is a free and open-source mail transfer agent (MTA) that routes and delivers electronic mail.
+---
 
-## Run the playbook
+## 🚀 Run the Playbook
+
+Use the following command to set up your mail server:
 
 ```bash
 ansible-playbook -i inventory --user=root --become setup-mailserver.yml --tag setup
 ```
 
-## Testing only - with tags
+### 🧩 Service Status
+Check whether the mail services are running:
 
-When developing, it's useful to easily clear the host environment, for this just run the same playbook command as above, just use ```--tag destroy```.
+```bash
+systemctl status dovecot
+systemctl status postfix
+```
 
-### Note: Not providing a tag will lead to the execution of the whole playbook, so setup and then destroy, which will cancel each other out.
+## 🧪 Testing (Development Mode)
+When developing or testing, you can easily destroy the host environment:
+
+```bash
+ansible-playbook -i inventory --user=root --become setup-mailserver.yml --tag destroy
+```
+
+> ⚠️ **Note:**  
+> Running the playbook **without specifying a tag** will execute both `setup` and `destroy` tasks, effectively canceling each other out.
 
 
-## Test sending email
+## 📧 Test Sending Email (Local)
+Install mail utilities and send a test email:
+
 ```bash
 sudo apt-get install mailutils -y   # For Debian/Ubuntu
-echo "This is a test email" | mail -s "Test Email" -r test@qa-smtp.cyverse.at mojib.wali@tugraz.at
+echo "This is a test email" | mail -s "Test Email" -r test@smtp.domain.at me@example.com
 ```
 
-## Test sending email from external services
-1. Set your desired test user in defaults/main.yml
-2. Run the following commands in the local client
+## 🌐 Test Sending Email from External Services
+
+1. Set your desired test user in `defaults/main.yml`.
+2. On your local client machine, run:
+
 ```bash
-sudo apt-get install swaks # For Debian/Ubuntu
-swaks -t enitu@tugraz.at -s mail.example.com:587 -tls -a LOGIN
+sudo apt-get install swaks -y  # For Debian/Ubuntu
+swaks -t me@example.com -s mail.example.com:587 -tls -a LOGIN
 ```
-This will prompt the login interface with username and password. Enter the credentials of the test created user. After running the _swaks_ command a mail should arrive at the given destination.
 
-## Debug logs
-Log in to the mail server host and type these commands to debug failed runs:
+You’ll be prompted for a username and password — enter the credentials of your test user.
+If successful, an email should arrive at the specified destination address.
 
-```journalctl -u <service> --since "10 minutes ago"``` where service could be: **postfix** or **dovecot**.
+## 🧰 Debugging and Logs
 
-```/var/log/letsencrypt/letsencrypt.log``` for certbot fails.
+Check recent logs for Dovecot or Postfix:
 
-## Allowed IPs
+```bash
+journalctl -u dovecot --since "10 minutes ago"
+journalctl -u postfix --since "10 minutes ago"
+```
 
-Configure at _/roles/mailserver/defaults_ which IPs are allowed to relay mails through the mail server. If the client host is directly connected to the server, or through VPN, the IP entered should be the **private** IP, else if the client and server are connected through the internet, add the **public** IP. Both IPv4 and IPv6 are accepted, and even subnets.
+If you’re using Let’s Encrypt for certificates, view the Certbot logs here:
 
-Variable that holds this config is **mynetworks**. This is used both directly for _permit_mynetworks_ restriction and is also processed in a template to create an access
-table.
+```bash
+cat /var/log/letsencrypt/letsencrypt.log
+```
 
-Examples:
+## 🔐 Allowed IPs
+You can configure which IPs are allowed to relay mail through the server by editing:
 
+```bash
+roles/mailserver/defaults/main.yml
+```
+
+The variable that controls this is `mynetworks`.
+
+This is used both directly for the `permit_mynetworks` restriction and to generate the Postfix access table.
+
+
+### 💡 Examples:
+
+```bash
+# Localhost + Private subnets
 mynetworks: 127.0.0.0/8 163.221.23.0/20 11.12.0.0/16 13.109.0.0/20
 
+# IPv4 + IPv6 localhost
 mynetworks: 127.0.0.0/8 [::1]/128
 
+# Public IP
 mynetworks: 122.21.216.176
+
+```
+
+> 🧭 **Tip:**  
+> - Use **private IPs** if the client connects directly or through VPN.  
+> - Use **public IPs** if the client connects over the internet.  
+> - Both **IPv4**, **IPv6**, and **subnet ranges** are supported.
