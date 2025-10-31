@@ -91,12 +91,7 @@ mynetworks: 127.0.0.0/8 163.221.23.0/20 11.12.0.0/16 13.109.0.0/20
 # IPv4 + IPv6 localhost
 mynetworks: 127.0.0.0/8 [::1]/128
 
-# Public IP
-mynetworks: 122.21.216.176
-
+# Public single IPs
+mynetworks: 122.21.216.176/32 163.221.23.0/32
 ```
 
-> 🧭 **Tip:**  
-> - Use **private IPs** if the client connects directly or through VPN.  
-> - Use **public IPs** if the client connects over the internet.  
-> - Both **IPv4**, **IPv6**, and **subnet ranges** are supported.
